@@ -3,6 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "./components/Header";
+import { ThemeProvider } from "./components/theme-provider";
 
 const inter = Poppins({weight: "600", subsets: ["latin"]})
 
@@ -20,9 +21,16 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ClerkProvider>
-          <Header/>
-          {children}
-          </ClerkProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
+            {children}
+          </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
