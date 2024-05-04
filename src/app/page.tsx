@@ -2,9 +2,15 @@ import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Sign } from "crypto";
 import Button from "./components/Button";
 import { TextGenerateEffect } from "@/components/ui/text-generate";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 
-export default function Home() {
+export default async function Home() {
+  const user = await currentUser()
+  if(user){
+    return redirect("/home")
+  }
   return (
     <main className="flex flex-col items-center h-full  gap-y-4 dark:bg-[#1c1c1c] bg-white ">
       <div className="flex flex-col items-center justify-center h-screen gap-y-8 ">
