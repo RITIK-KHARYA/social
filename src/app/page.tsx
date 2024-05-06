@@ -18,7 +18,8 @@ export default async function Home() {
           Socials!
         </h1>
         <TextGenerateEffect
-          words="Socials is a platform where you can share your thoughts and ideas with people around the world"
+          words="Socials is a platform where you can share your thoughts and ideas with people around the world
+          Unfiltered. Uncensored. Unchained. Share your truth on Social."
           className="text-5xl text-slate-300/90 text-center text-wrap w-[60%]"
         />
 
