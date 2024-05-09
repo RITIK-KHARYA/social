@@ -1,12 +1,14 @@
 
-import { Like, Post,User } from '@prisma/client'
+import { Comment, Like, Post,User } from '@prisma/client'
 import { format } from "date-fns";
 import Image from 'next/image';
-
 import { currentUser } from '@clerk/nextjs/server';
 import LikeButton from './like';
+import { CommentModal } from './CommentModal';
+import { CommentForm } from './CommentForm';
+import UserInteract from './UserInteract';
 interface singlePostProps {
-   posts: (Post & {author : User} & {likes: Like[]})[]
+   posts: (Post & {author : User} & {likes: Like[]}& {comments: Comment[]})[]
 }
 const SinglePost =async({posts}: singlePostProps) => {
   const user = await currentUser();
@@ -46,9 +48,11 @@ const SinglePost =async({posts}: singlePostProps) => {
           />
         )}
       </div>
-      
+      <div className="flex  gap-x-8">
       <LikeButton post={post} userId={user?.id} />
-      
+      <UserInteract postId={post.id} post={post} totalcomments={post.comments.length} />
+    
+      </div>
     </div>
   ));
 }

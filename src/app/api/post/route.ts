@@ -33,6 +33,7 @@ export async function GET(request: NextRequest) {
     include: {
       author: true,
       likes: true,
+      comments: true,
     },
   });
   
