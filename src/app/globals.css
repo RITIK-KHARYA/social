@@ -101,5 +101,6 @@
   :root{
     margin: 0;
     padding: 0;
+    height: 100%;
     background-color: #1c1c1c ;
   }

@@ -8,14 +8,37 @@ export async function POST(req:Request, res:NextResponse){
        return NextResponse.json({ message: "You must be logged in to post" })
     }
    
-    const {content} = await req.json()
+    const {content ,image} = await req.json()
     console.log(content)
     const newPost= await prisma.post.create({
         data: {
             content: content,
             authorId: user.id,
+            image:image ?? null,
+            
         },
     })
 
     return NextResponse.json({ message: "Post created" })
+}
+export async function GET(request: NextRequest) {
+  const user = await currentUser();
+  if (!user) {
+    return NextResponse.json({ message: "You must be logged in to view posts" });
+  }
+  const posts = await prisma.post.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      author: true,
+      likes: true,
+    },
+  });
+  
+  console.log(posts)
+  return NextResponse.json({
+  status:200,
+  data: posts
+  })
 }

@@ -1,3 +1,4 @@
+"use client";
 import { SignIn, SignInButton, SignOutButton, SignedIn, SignedOut, UserButton, UserProfile } from "@clerk/nextjs";
 import Button from "./Button";
 import { ModeToggle } from "./Theme";

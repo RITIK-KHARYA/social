@@ -5,7 +5,7 @@ import {
 import { NextRequest } from "next/server";
 
 
-const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)","/"]);
+const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)","/","/api/uploadthing"]);
 export default clerkMiddleware((auth, req) => {
    if(!isPublicRoute(req)){
     auth().protect();

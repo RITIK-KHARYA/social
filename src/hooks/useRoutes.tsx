@@ -1,3 +1,4 @@
+"use client";
 import { Session, currentUser } from "@clerk/nextjs/server";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
