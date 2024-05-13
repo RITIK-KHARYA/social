@@ -8,7 +8,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
     if (!user) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-  const {  postId, userId } = await request.json();
+  const {  postId, userId,authorId } = await request.json();
     const likedPost = await prisma.like.create({
         data: {
             postId: postId,
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const notification = await prisma.notification.create({
         data: {
              userid : user.id,
-             toUserId: userId,
+             toUserId: authorId,
             content: "someone liked your post",
         },
     });

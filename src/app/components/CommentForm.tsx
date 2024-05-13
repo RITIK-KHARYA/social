@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation"
 interface CommentFormProps {
   post: (Post & { author: User } & { likes: Like[] }& {comments: Comment[]});
   postId: string;
+  authorId: string | undefined;
 }
 const formSchema = z.object({
   comment: z.string().min(2, {
@@ -31,7 +32,7 @@ const formSchema = z.object({
   }),
 })
 
-export function CommentForm({post,postId}: CommentFormProps) {
+export function CommentForm({post,postId,authorId}: CommentFormProps) {
   const userId = post.authorId
   const router = useRouter()
   const {postid } = usePostStore();
@@ -52,6 +53,7 @@ export function CommentForm({post,postId}: CommentFormProps) {
         axios.post("/api/comment",{
             userId,
             postid,
+            authorId,
             data
         })
         toast.success("Comment added")

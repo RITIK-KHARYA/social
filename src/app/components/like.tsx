@@ -13,9 +13,10 @@ import { FaHeart } from "react-icons/fa";
 interface LikeProps {
   post: Post & { author: User } & { likes: Like[] };
   userId: string | undefined;
+  authorId: string | undefined;
 }
 
-export default function LikeButton({ post, userId }: LikeProps) {
+export default function LikeButton({ post, userId,authorId }: LikeProps) {
 
   const isLikedByMe = post.likes.some((like) => like.userId === userId);
   // const initialIsLiked = isLikedByMe || post.likes.length > 0; 
@@ -39,6 +40,7 @@ export default function LikeButton({ post, userId }: LikeProps) {
         axios.post("/api/like", {
           postId: post.id,
           userId: userId,
+          authorId: authorId,
         });
         setIsLiked(true);
         toast.success("liked");
