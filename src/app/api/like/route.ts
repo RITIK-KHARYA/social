@@ -17,8 +17,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
     });
     const notification = await prisma.notification.create({
         data: {
-            userId: user.id,
-            postId: postId,
+             userid : user.id,
+             toUserId: userId,
             content: "someone liked your post",
         },
     });

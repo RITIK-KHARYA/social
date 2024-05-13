@@ -32,6 +32,7 @@ const formSchema = z.object({
 })
 
 export function CommentForm({post,postId}: CommentFormProps) {
+  const userId = post.authorId
   const router = useRouter()
   const {postid } = usePostStore();
     const {onclose} = useModalStore();
@@ -49,6 +50,7 @@ export function CommentForm({post,postId}: CommentFormProps) {
      try{
         setIsLoading(true)
         axios.post("/api/comment",{
+            userId,
             postid,
             data
         })
