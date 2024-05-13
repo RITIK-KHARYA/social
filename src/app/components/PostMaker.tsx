@@ -56,7 +56,7 @@ export function PostMaker() {
        } finally {
          setIsLoading(false);
          form.reset();
-         router.refresh();
+     
        }
   }
 

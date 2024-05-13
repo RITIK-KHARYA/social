@@ -2,6 +2,7 @@
 import { Like, Post, User } from "@prisma/client";
 import axios from "axios";
 import clsx from "clsx";
+import { revalidatePath } from "next/cache";
 import { Island_Moments } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
@@ -15,17 +16,13 @@ interface LikeProps {
 }
 
 export default function LikeButton({ post, userId }: LikeProps) {
-  const router = useRouter();
+
   const isLikedByMe = post.likes.some((like) => like.userId === userId);
   // const initialIsLiked = isLikedByMe || post.likes.length > 0; 
 
   const [isLiked, setIsLiked] = useState(isLikedByMe);
+  const router = useRouter();
 
-  useEffect(() => {
-
-    console.log("inside useEffect");
-    router.refresh()
-  }, [isLiked]);
 
   const handlelike = () => {
     try {
@@ -45,10 +42,13 @@ export default function LikeButton({ post, userId }: LikeProps) {
         });
         setIsLiked(true);
         toast.success("liked");
+       
       }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+       router.refresh();
     }
   };
 

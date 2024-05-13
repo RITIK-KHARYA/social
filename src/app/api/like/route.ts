@@ -26,7 +26,7 @@ export async function DELETE(request: NextRequest, response: NextResponse) {
     }
     console.log(request.body);
 
-    const { postId, userId } = await request.json();
+    const {postId,userId } = await request.json();
     const dislikedPost = await prisma.like.deleteMany({
         where: {
             postId: postId,

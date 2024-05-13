@@ -18,9 +18,11 @@ import { Post,User,Like } from "@prisma/client"
 import axios from "axios"
 import { useState } from "react"
 import toast from "react-hot-toast"
-import useModalStore from "@/hooks/use-modal-store"
+import { useModalStore, usePostStore } from "@/hooks/use-modal-store"
+import { Comment } from "@prisma/client";
+import { useRouter } from "next/navigation"
 interface CommentFormProps {
-  post: (Post & { author: User } & { likes: Like[] });
+  post: (Post & { author: User } & { likes: Like[] }& {comments: Comment[]});
   postId: string;
 }
 const formSchema = z.object({
@@ -30,6 +32,8 @@ const formSchema = z.object({
 })
 
 export function CommentForm({post,postId}: CommentFormProps) {
+  const router = useRouter()
+  const {postid } = usePostStore();
     const {onclose} = useModalStore();
 
     const [isLoading, setIsLoading] = useState(false)
@@ -41,10 +45,11 @@ export function CommentForm({post,postId}: CommentFormProps) {
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+      
      try{
         setIsLoading(true)
         axios.post("/api/comment",{
-            postId,
+            postid,
             data
         })
         toast.success("Comment added")
@@ -56,39 +61,13 @@ export function CommentForm({post,postId}: CommentFormProps) {
      }
      finally {
         setIsLoading(false)
+        router.refresh()
      }
     }
 
 
   return (
     <>
-      <div className="flex flex-col gap-y-4 bg- p-4 rounded-md bg-neutral-950">
-        <div className="flex flex-col gap-y-2">
-          <div className="flex flex-col gap-y-1" >
-            <div>
-              <Image
-                src={post.author.image || "/images/images.png"}
-                alt="avatar"
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
-            </div>
-            <div className="flex flex-col">
-              <p className="text-sm font-medium">{post.author.name}</p>
-              <p className="text-xs text-slate-500">
-                {"@" + post.author.username}
-              </p>
-            </div>
-            <div className="mt-4">
-              <p className="text-slate-300">{post.content}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* <div className="h-2 w-20 bg-slate-900 rounded-lg rotate-90 mr-12 -z-10">
-
-      </div> */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -98,14 +77,30 @@ export function CommentForm({post,postId}: CommentFormProps) {
               <FormItem>
                 <FormLabel>Comment</FormLabel>
                 <FormControl>
-                  <Input placeholder="reply " {...field} className="focus:ring-0 focus:border-0 focus:offset-0" />
+                  <Input
+                    placeholder="reply "
+                    {...field}
+                    className="focus:ring-0 focus:border-0 focus:offset-0"
+                  />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isLoading}>Add Comment</Button>
+          <div className="flex gap-x-2  self-center">
+            <Button type="submit" disabled={isLoading}>
+              Add Comment
+            </Button>
+            <Button
+              type="submit"
+              className="bg-red-400 hover:bg-red-500"
+              disabled={isLoading}
+              onClick={onclose}
+            >
+              Cancel
+            </Button>
+          </div>
         </form>
       </Form>
     </>

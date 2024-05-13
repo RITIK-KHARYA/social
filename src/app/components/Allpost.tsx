@@ -1,8 +1,8 @@
-import { Like, Post,User} from "@prisma/client";
+import { Like, Post,User,Comment, Bookmark} from "@prisma/client";
 import SinglePost from "./singlePost";
 
 interface singlePostProps {
-  posts: (Post & { author: User  }&  {likes: Like[]}& {comments: Comment[]})[]
+  posts: (Post & { author: User  }&  {likes: Like[]}& {comments: Comment[]}&{bookmarks: Bookmark[]})[];
 }
 export default function AllPost({posts}: singlePostProps) {
 

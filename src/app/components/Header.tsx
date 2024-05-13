@@ -12,7 +12,6 @@ export default function Header() {
         <h1 className="text-4xl font-bold text-[#1CBF73]">Socials</h1>
         <div className="mr-6 flex items-center justify-center gap-x-4">
           <ModeToggle />
-
           <SignedOut>
             <SignInButton>
               <Button className="bg-[#1CBF73] ">Sign In</Button>

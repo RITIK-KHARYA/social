@@ -21,11 +21,18 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   image     String?
+  header    String?
+  bio       String?
+  location  String?
+  dateJoined DateTime @default(now())
   posts     Post[]  
   likes     Like[]    
   bookmarks Bookmark[] 
   comments  Comment[]
   notifications Notification[]
+  followers Follow[] @relation("UserFollowers")
+  followings Follow[] @relation("UserFollowings")
+
 }
 
 model Post { 
@@ -80,5 +87,13 @@ model Notification {
   createdAt  DateTime @default(now())
 }
 
+model Follow {
+  id        String  @id @default(uuid())
+  follower  User    @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId String
+  following User   @relation("UserFollowings", fields: [followingId], references: [id], onDelete: Cascade)
+  followingId String
+  createdAt DateTime @default(now())
+}
 
 

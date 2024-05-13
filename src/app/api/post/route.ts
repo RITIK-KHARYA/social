@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
       author: true,
       likes: true,
       comments: true,
+      bookmarks: true,
     },
   });
   
