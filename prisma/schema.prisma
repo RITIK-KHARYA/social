@@ -46,7 +46,7 @@ model Post {
   likes       Like[]    
   bookmarks  Bookmark[]   
   comments    Comment[] 
-  notifications Notification[]
+
 }
 
 model Like {
@@ -79,10 +79,9 @@ model Comment {
 
 model Notification {
    id        String      @id @default(uuid())
-  user       User    @relation(fields: [userId], references: [id])
-  userId     String
-  post       Post    @relation(fields: [postId], references: [id])
-  postId     String
+  user       User    @relation(fields: [userid], references: [id])
+  userid     String
+  toUserId    String
   content    String
   createdAt  DateTime @default(now())
 }

@@ -37,3 +37,18 @@ export const getOtherUserComments = async (userId: string) => {
   revalidatePath("/home/profile/" + userId);
   return comments;
 };
+
+export const getPostComments = async (postId: string) => {
+  unstable_noStore();
+  const comments = await prisma.comment.findMany({
+    where: {
+      postId: postId,
+    },
+    include: {
+      post: true,
+      user: true,
+    },
+  });
+  revalidatePath("/home/post/" + postId);
+  return comments;
+};

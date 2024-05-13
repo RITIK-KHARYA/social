@@ -13,7 +13,7 @@ export default async function Followers() {
           <h2 className="text-2xl"> You don't follow anyone </h2>
         </div>
       )}
-      <div className="py-2 flex gap-y-2">
+      <div className="py-2 flex flex-col gap-y-2">
         {user?.map((follower) => (
           <div key={follower.id} className="flex gap-y-2 py-2">
             <div className="bg-neutral-900/90 w-full items-center h-24 rounded-md p-2 flex gap-y-2 py-2 ">

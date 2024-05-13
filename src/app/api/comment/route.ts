@@ -19,5 +19,12 @@ export async function POST(request: NextRequest,response: NextResponse) {
             userId: user.id
         }
     })
+     const notification = await prisma.notification.create({
+       data: {
+         userId: user.id,
+         postId: postid,
+         content: "someone commented on your post",
+       },
+     });
     return NextResponse.json({ status: 200, message: "Comment added successfully." })
 }

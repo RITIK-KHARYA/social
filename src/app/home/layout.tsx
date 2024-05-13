@@ -10,7 +10,7 @@ export default function HomeLayout({
   return (
     <main>
       <div className="h-screen flex gap-x-2">
-        <AnimatedTooltipPreview />
+
         <Sidebar />
         {children}
         <RightSidebar />

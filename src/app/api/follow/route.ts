@@ -17,6 +17,13 @@ export async function POST(request:NextRequest, response:NextResponse) {
       followingId: user.id
     },
   });
+   const notification = await prisma.notification.create({
+     data: {
+       userId: userId,
+       postId: user.id,
+       content: "someone followed you",
+     },
+   });
 
   return NextResponse.json({ message: "Followed" });
 

@@ -3,7 +3,7 @@ import { Session, currentUser } from "@clerk/nextjs/server";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import { AiFillHome } from "react-icons/ai";
-import { BiSolidMessageSquareDetail } from "react-icons/bi";
+import { BiNotification, BiSolidMessageSquareDetail } from "react-icons/bi";
 import { BsBookmarkStar } from "react-icons/bs";
 import { CiUser } from "react-icons/ci";
 
@@ -18,6 +18,12 @@ export const useRoutes = () => {
         path: "/home",
         icon: AiFillHome,
         isActive: pathname === "/home",
+      },
+      {
+        name:"Notifications",
+        path: "/home/notification",
+        icon: BiNotification,
+        isActive: pathname === "/home/notification",
       },
       {
         name: "Messages",
