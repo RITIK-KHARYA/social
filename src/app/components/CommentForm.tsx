@@ -21,6 +21,7 @@ import toast from "react-hot-toast"
 import { useModalStore, usePostStore } from "@/hooks/use-modal-store"
 import { Comment } from "@prisma/client";
 import { useRouter } from "next/navigation"
+import { createComments } from "../actions/createComments"
 interface CommentFormProps {
   post: (Post & { author: User } & { likes: Like[] }& {comments: Comment[]});
   postId: string;
@@ -34,7 +35,7 @@ const formSchema = z.object({
 
 export function CommentForm({post,postId,authorId}: CommentFormProps) {
   const userId = post.authorId
-  const router = useRouter()
+
   const {postid } = usePostStore();
     const {onclose} = useModalStore();
 
@@ -50,12 +51,7 @@ export function CommentForm({post,postId,authorId}: CommentFormProps) {
       
      try{
         setIsLoading(true)
-        axios.post("/api/comment",{
-            userId,
-            postid,
-            authorId,
-            data
-        })
+       await createComments(data,postid,authorId)
         toast.success("Comment added")
         onclose()
 
@@ -65,7 +61,7 @@ export function CommentForm({post,postId,authorId}: CommentFormProps) {
      }
      finally {
         setIsLoading(false)
-        router.refresh()
+  
      }
     }
 

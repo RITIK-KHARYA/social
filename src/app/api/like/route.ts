@@ -1,5 +1,7 @@
+"use server"
 import prisma from "@/db/db.config";
 import { currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest, response: NextResponse) {
@@ -22,6 +24,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
             content: "someone liked your post",
         },
     });
+    revalidatePath("/home");
     return NextResponse.json({ message: "Liked" });
 }
 
@@ -40,5 +43,6 @@ export async function DELETE(request: NextRequest, response: NextResponse) {
             userId: userId,
         },
     });
+       revalidatePath("/home");
     return NextResponse.json({ message: "disliked" });
 }

@@ -10,6 +10,5 @@ export const getBookmarks = async () => {
     headers: headers()
   })
   const bookmarks = await res.json()
-  revalidatePath("/home/bookmark")
   return bookmarks?.data
 };

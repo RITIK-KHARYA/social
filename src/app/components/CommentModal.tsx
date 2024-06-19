@@ -34,9 +34,9 @@ export const CommentModal = ({  isOpen, onClose, setIsOpen, children ,totalcomme
         </div>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="backdrop-blur-sm fixed inset-0 z-20 bg-neutral-900/50 " />
+        <Dialog.Overlay className="backdrop-blur-sm inset-0 fixed z-20 bg-neutral-900/10 "/>
         <Dialog.DialogContent
-          className="fixed drop-shadow-md border border-neutral-700 top-[50%] left-[50%] max-h-full h-full md:h-auto md:max-h-[85vh] w-full md:w-[90vw] md:max-w-[450px]
+          className="fixed  border border-neutral-700 top-[50%] left-[50%] max-h-full h-full md:h-auto md:max-h-[85vh] w-full md:w-[90vw] md:max-w-[450px]
         translate-x-[-50%] translate-y-[-50%] rounded-md p-[25px] text-neutral-800 dark:bg-neutral-900 z-30 foxus-outline-none"
         >
           <Dialog.DialogTitle className="text-lg font-medium text-white dark:text-white text-center py-2">

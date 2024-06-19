@@ -9,7 +9,7 @@ export async function POST(request: NextRequest,response: NextResponse) {
         return NextResponse.json({ message: "You must be logged in to comment." })
     }
     
-    const {data,postid,userId,authorId} = await request.json()
+    const {data,postid,authorId} = await request.json()
     console.log(data)
     console.log(postid)
     const comment = await prisma.comment.create({

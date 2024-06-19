@@ -22,6 +22,7 @@ import { UploadButton } from "@/utils/uploadthing";
 import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 import ImageUploader from "./imageUploader";
 import Image from "next/image";
+import { createPost } from "../actions/post";
 
 const formSchema = z.object({
   content: z.string().min(2, {
@@ -48,7 +49,8 @@ export function PostMaker() {
    
        try {
          setIsLoading(true);
-         await axios.post("/api/post", data)
+        //  await axios.post("/api/post", data)
+        await createPost(data)
          toast.success("Post created successfully");
        } catch (error) {
          console.log(error);
@@ -56,7 +58,6 @@ export function PostMaker() {
        } finally {
          setIsLoading(false);
          form.reset();
-     
        }
   }
 

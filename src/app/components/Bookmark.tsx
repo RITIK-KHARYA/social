@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { CiBookmark } from "react-icons/ci";
+import { createBookmark, deleteBookmark } from "../actions/createDeleteBookmarks";
 interface BookmarkProps {
   postId: string;
   userId: string | undefined;
@@ -20,31 +21,21 @@ export default function BookmarkButton({ postId, userId, post }: BookmarkProps) 
     );
   const router = useRouter()
     const [isBookmarked, setIsBookmarked] = useState(isBookmarkedByMe);
-      const handleBookmark = () => {
+      const handleBookmark = async() => {
         try{
         if(!isBookmarked){
-            axios.post("/api/bookmark", {
-              postId: postId,
-              userId: userId,
-            });
+            await createBookmark(postId, userId);
             toast.success("Bookmark added");
             setIsBookmarked(true)
         }else{
-            axios.delete("/api/bookmark", {
-              data: {
-                postId: postId,
-                userId: userId,
-              },
-        });
+            await deleteBookmark(postId, userId);
             toast.success("Bookmark deleted");
             setIsBookmarked(false)
         }
         }catch(error){
             console.log(error)
             toast.error("Something went wrong");
-        } finally {
-          router.refresh();
-       }
+        }
       };
 
   return (

@@ -9,6 +9,7 @@ import { use, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
+import { createLike, deleteLike } from "../actions/createDeleteLike";
 
 interface LikeProps {
   post: Post & { author: User } & { likes: Like[] };
@@ -22,26 +23,17 @@ export default function LikeButton({ post, userId,authorId }: LikeProps) {
   // const initialIsLiked = isLikedByMe || post.likes.length > 0; 
 
   const [isLiked, setIsLiked] = useState(isLikedByMe);
-  const router = useRouter();
+  
 
 
-  const handlelike = () => {
+  const handlelike = async() => {
     try {
       if (isLiked) {
-        axios.delete("/api/like", {
-          data: {
-            postId: post.id,
-            userId: userId,
-          },
-        });
+        await deleteLike(post.id, userId);
         setIsLiked(false);
         toast.success("disliked");
       } else {
-        axios.post("/api/like", {
-          postId: post.id,
-          userId: userId,
-          authorId: authorId,
-        });
+        await createLike(post.id, userId, authorId);
         setIsLiked(true);
         toast.success("liked");
        
@@ -50,7 +42,7 @@ export default function LikeButton({ post, userId,authorId }: LikeProps) {
       console.log(error);
       toast.error("Something went wrong");
     }finally{
-       router.refresh();
+       
     }
   };
 
