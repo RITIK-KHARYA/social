@@ -1,14 +1,33 @@
 "use server";
+import prisma from "@/db/db.config";
+import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath, unstable_noStore } from "next/cache";
 import { headers } from "next/headers";
 
 export const getBookmarks = async () => {
   unstable_noStore()
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/bookmark`, {
-    method: "GET",
-    cache: "no-cache",
-    headers: headers()
-  })
-  const bookmarks = await res.json()
-  return bookmarks?.data
+   const user = await currentUser();
+   if (!user) {
+     return Response.json({
+       message: "You must be logged in to view bookmarks.",
+     });
+   }
+   const bookmarks = await prisma.bookmark.findMany({
+     where: {
+       userId: user.id,
+     },
+     include: {
+       post: {
+         include: {
+           author: true,
+           comments: true,
+           likes: true,
+           bookmarks: true,
+         },
+       },
+     },
+   });
+  
+
+  return bookmarks
 };

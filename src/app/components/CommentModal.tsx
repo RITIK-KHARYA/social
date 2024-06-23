@@ -27,8 +27,8 @@ export const CommentModal = ({  isOpen, onClose, setIsOpen, children ,totalcomme
             setPostData(post);
           }}
         >
-          <FaRegCommentDots height={20} width={20} className="h-6 w-6" />
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <FaRegCommentDots height={20} width={20} className="h-6 w-6 fill-white" />
+          <p className="text-xs text-white font-mono dark:text-slate-100">
             {totalcomments}
           </p>
         </div>

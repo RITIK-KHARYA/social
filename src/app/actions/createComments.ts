@@ -28,7 +28,7 @@ export const createComments = async (data: {
     data: {
       userid: user.id,
       toUserId: authorId,
-      content: "someone commented on your post",
+      content: "commented on your post",
     },
   });
   revalidatePath("/home");

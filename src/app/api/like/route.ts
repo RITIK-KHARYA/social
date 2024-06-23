@@ -21,7 +21,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
         data: {
              userid : user.id,
              toUserId: authorId,
-            content: "someone liked your post",
+            content: " liked your post",
         },
     });
     revalidatePath("/home");

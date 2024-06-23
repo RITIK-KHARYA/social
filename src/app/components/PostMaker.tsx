@@ -5,6 +5,7 @@ import { z } from "zod";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+
 import {
   Form,
   FormControl,
@@ -15,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
 import { UploadButton } from "@/utils/uploadthing";
@@ -23,6 +24,10 @@ import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 import ImageUploader from "./imageUploader";
 import Image from "next/image";
 import { createPost } from "../actions/post";
+import EmojiPicker from "./emojiPicker";
+import { Textarea } from "@/components/ui/textarea";
+import { useImageStore } from "@/hooks/use-modal-store";
+import { IoClose } from "react-icons/io5";
 
 const formSchema = z.object({
   content: z.string().min(2, {
@@ -34,7 +39,9 @@ const formSchema = z.object({
 });
 
 export function PostMaker() {
-  const [imageUrl, setImageUrl] = useState("");
+
+  const {imageUrl,setImageUrl}=useImageStore()
+  const imageRef = useRef<HTMLDivElement>(null)
   const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const form = useForm<z.infer<typeof formSchema>>({
@@ -60,12 +67,15 @@ export function PostMaker() {
          form.reset();
        }
   }
+  useEffect(() => {
+    console.log(imageUrl)
+  }, [imageUrl]);
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 mt-2 flex flex-col w-full max-h-56 relative"
+        className="space-y-2 mt-2 flex flex-col w-full h-[220px] max-h-72 relative"
       >
         <div className="flex flex-col gap-y-4">
           <FormField
@@ -74,11 +84,30 @@ export function PostMaker() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    placeholder="shadcn"
-                    className="w-full align-start pb-40 ring-0 focus:ring-0 offset-0 focus:offset-0 hover:offset-0 pt-4 bg-slate-950"
-                    {...field}
-                  />
+                  <div className="flex flex-col gap-y-1">
+                    <Textarea
+                      placeholder="What's on your mind?"
+                      className="w-full align-start pb-28 overflow-x-hidden overflow-y-scroll ring-0 bg-neutral-950 focus:ring-0 offset-0 focus:offset-0 hover:offset-0 pt-4 offset-neutral-900 border-2 border-neutral-900/90 box-shadow-md box-shadow-white relative "
+                     
+                      {...field}
+                    ></Textarea>
+                    {imageUrl && (
+                      <div className="flex w-[50px] h-fit p-1  rounded-md border-bg-neutral-900/90 box-shadow-md box-shadow-white absolute bottom-14 left-2 ">
+                      <IoClose size={20} className="text-neutral-900 fill-white absolute top-0 right-0" onClick={() => setImageUrl(null)} />
+                        <img
+                          src={imageUrl}
+                          alt="image"
+                          width={200}
+                          height={200}
+                          className="rounded-lg "
+                        />
+                      </div>
+                    )}
+
+                    <div className="absolute bottom-0 left-0">
+                      <EmojiPicker onChange={field.onChange} />
+                    </div>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,24 +120,24 @@ export function PostMaker() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex items-start">
+                  <div className="flex items-start absolute bottom-[7px] left-10 ">
                     <ImageUploader
                       value={field.value}
                       onChange={field.onChange}
                     />
-                    {field.value && (
+                    {/* {field.value && (
                       <div className="">
-                      <Image
-                        src={field.value ?? ""}
-                        alt="image"
-                        width={200}
-                        height={200}
-                        className="rounded-lg"
-                        quality={100}
-                        priority
-                      />
-                    </div>
-                    )}
+                        <Image
+                          src={field.value ?? ""}
+                          alt="image"
+                          width={200}
+                          height={200}
+                          className="rounded-lg"
+                          quality={100}
+                          priority
+                        />
+                      </div>
+                    )} */}
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -116,12 +145,14 @@ export function PostMaker() {
             )}
           />
         </div>
-          <Button
-            className="bg-[#1CBF73] w-[20%] h-8 flex items-center justify-center"
+        <div className="flex flex-col absolute bottom-2 justify-center  right-0 items-end ">
+          <button
+            className="bg-white text-black w-auto h-auto p-1 px-4 flex rounded-full items-center justify-center hover:bg-white/50"
             type="submit"
           >
             Post
-          </Button>
+          </button>
+        </div>
       </form>
     </Form>
   );

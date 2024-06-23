@@ -47,13 +47,13 @@ export default function LikeButton({ post, userId,authorId }: LikeProps) {
   };
 
   return (
-    <div className="flex items-center gap-x-2" onClick={handlelike}>
+    <div className="flex flex-row items-center gap-x-2" onClick={handlelike}>
       {isLiked ? (
-        <FaHeart onClick={() => setIsLiked(false)} />
+        <FaHeart className="fill-red-600" onClick={() => setIsLiked(false)} />
       ) : (
         <CiHeart onClick={() => setIsLiked(true)} />
       )}
-      <span>{post.likes.length}</span>
+      <span className="text-xs font-mono">{post.likes.length}</span>
     </div>
   );
 }

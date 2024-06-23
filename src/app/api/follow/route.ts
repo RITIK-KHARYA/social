@@ -21,7 +21,7 @@ export async function POST(request:NextRequest, response:NextResponse) {
      data: {
        userid: user.id,
        toUserId: userId,
-       content: "someone followed you",
+       content: " followed you",
      },
    });
 

@@ -1,14 +1,18 @@
 import { getBookmarks } from "@/app/actions/getBookmarks";
 import AllBookmark from "@/app/components/AllBookmark";
+import Back from "@/app/components/back";
+import PostShimmer from "@/app/components/skeleton/postShimmer";
 import { currentUser } from "@clerk/nextjs/server";
-import React from "react";
+import React, { Suspense } from "react";
 
 const BookmarkPage = async() => {
-  const user = await currentUser();
-    const bookmarks = await getBookmarks();
+  
   return (
-    <div className='flex flex-col px-2 h-screen gap-y-20 dark:bg-[#232323] bg-white mt-2 w-[50%] rounded-md'>
-      <AllBookmark bookmarks={bookmarks} userId={user?.id} />
+    <div className="flex flex-col border-2 w-[50%] h-fit p-2  rounded-md border-neutral-900 bg-[#121212] box-shadow-lg box-shadow-white shadow-inner-white mt-2 gap-x-2">
+      <Back title="Bookmarks" />
+      <Suspense fallback={<PostShimmer />}>
+        <AllBookmark />
+      </Suspense>
     </div>
   );
 };

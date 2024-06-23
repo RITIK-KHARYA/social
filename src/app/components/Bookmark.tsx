@@ -8,6 +8,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { CiBookmark } from "react-icons/ci";
 import { createBookmark, deleteBookmark } from "../actions/createDeleteBookmarks";
+import { Bookmark as BIcon} from "lucide-react";
 interface BookmarkProps {
   postId: string;
   userId: string | undefined;
@@ -45,9 +46,9 @@ export default function BookmarkButton({ postId, userId, post }: BookmarkProps) 
         onClick={handleBookmark}
       >
         {isBookmarked ? (
-          <CiBookmark width={20} height={20} className="h-6 w-6" fill="blue" onClick={() => setIsBookmarked(false)} />
+          <BIcon width={20} height={20} className="fill-blue-500 stroke-none"  onClick={() => setIsBookmarked(false)} />
         ) : (
-          <CiBookmark width={20} height={20} className="h-6 w-6 " onClick={() => setIsBookmarked(true)} />
+          <BIcon width={20} height={20} className="stroke-white  " onClick={() => setIsBookmarked(true)} />
         )}
       </div>
     </div>

@@ -7,7 +7,7 @@ interface singlePostProps {
 export default function AllPost({posts}: singlePostProps) {
 
   return (
-    <div className="flex flex-col gap-y-6 w-full h-screen overflow-scroll mt-4">
+    <div className="flex flex-col gap-y-6 w-full h-screen  mt-4">
       <SinglePost posts={posts} />
     </div>
   );

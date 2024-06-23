@@ -39,3 +39,9 @@ export const useCurrentUser = create<userProps>((set) => ({
   user: {} as User,
   setUser: (user: User) => set({ user }),
 }))
+
+
+export const useImageStore = create<{imageUrl:any, setImageUrl: (imageUrl: any) => void}>((set) => ({
+  imageUrl: null,
+  setImageUrl: (imageUrl: any) => set({ imageUrl }),
+}))

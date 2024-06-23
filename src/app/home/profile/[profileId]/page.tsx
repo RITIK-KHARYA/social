@@ -18,6 +18,13 @@ import TabLikes from "@/app/components/TabLikes2";
 import { getOtherUser } from "@/app/actions/getOtherUser";
 import FollowButton from "@/app/components/FollowButton";
 import Link from "next/link";
+import { IoChevronBack } from "react-icons/io5";
+import { BiCalendar } from "react-icons/bi";
+import { format } from "date-fns";
+import TabComments2 from "@/app/components/TabComments2";
+import TabMedia2 from "@/app/components/TabMedia2";
+import TabLikes2 from "@/app/components/TabLikes2";
+import TabPost2 from "@/app/components/TabPost2";
 
 const Mypage = async({ params }: { params: { profileId: string } }) => {
   unstable_noStore()
@@ -27,105 +34,130 @@ const Mypage = async({ params }: { params: { profileId: string } }) => {
   }
   
   const user = await getOtherUser(params.profileId);
+  if(!user){
+    return null;
+  }
   const isFollowing = user?.followers.some((follower) => follower.followingId === currentUser?.id) 
 
   return (
-    <div className="flex flex-col h-screen w-full gap-y-20 dark:bg-[#232323] bg-white mt-2  rounded-md">
-      <div className="bg-[#232323] h-screen w-full flex flex-col px-2 mt-2 rounded-md overflow-scroll">
-        <div className="flex flex-col h-screen space-y-6 mt-2 py-2">
-          <div className="flex flex-col justify-between w-full h-[30%] bg-neutral-300/10 space-y-4 mt-2 rounded-md ">
-            <Image
-              src={user?.header || "/images/n2.jpg"}
-              alt="user"
-              width={300}
-              height={300}
-              className=" w-full h-full rounded-md object-cover hover:bg-gradient-to-t from-zinc-800 to-slate-50 hover:opacity-60  z-10 cursor-pointer "
-            />
-            <div className="flex items-center justify-end w-full cursor-pointer z-30">
-              <FollowButton
-                userId={params.profileId}
-                currentUser={currentUser?.id}
-                isFollowing={isFollowing}
-              />
+    <div className="bg-[#121212] h-screen w-[50%] flex flex-col px-2 mt-2 rounded-md gap-y-2 ">
+      <div className="flex items-center w-full h-12 py-2 border-b-2 border-neutral-900 ">
+        <div className="flex items-center justify-between w-8 h-8 rounded-full bg-slate-300/10 hover:bg-slate-300/5 p-2 ">
+          <IoChevronBack
+            className="text-2xl fill-black h-6 w-6 "
+            height={30}
+            width={30}
+          />
+        </div>
+        <h1 className="text-lg font-bold text-center">{user.name}</h1>
+      </div>
+      <div className="relative h-72">
+        <img
+          src={user.header || "/images/n2.jpg"}
+          className="w-full h-[200px] rounded-md"
+        />
+        <div className="absolute -bottom-[60px] left-4">
+          <img
+            src={user.image || "/images/images.png"}
+            alt="avatar"
+            className="w-[150px] h-[150px] rounded-full"
+          />
+        </div>
+      </div>
+      <div className="border-b-2 border-neutral-900 w-full h-64">
+        <div className="flex justify-end">
+          <FollowButton
+            userId={user.id}
+            currentUser={currentUser?.id}
+            isFollowing={isFollowing}
+          />
+        </div>
+        <div className="mt-8 px-4">
+          <div className="flex flex-col">
+            <p className="text-white text-xl font-mono">{user.name}</p>
+            <p className="text-neutral-500 text-sm font-mono font-thin">
+              @{user.username}
+            </p>
+          </div>
+          <div className="flex flex-col mt-4">
+            <p className="text-white text-lg font-mono">{user.bio}</p>
+            <div className="flex flex-row items-center gap-2 mt-4 text-neutral-400">
+              <BiCalendar size={24} />
+              <p>Joined -{format(new Date(user.createdAt), "dd,MMMM")}</p>
             </div>
           </div>
-
-          <div className="flex flex-col items-start justify-start h-96 w-960">
-            <Image
-              src={user?.image || "/images/images.png"}
-              alt="user"
-              width={50}
-              height={50}
-              className="rounded-full w-[150px] h-[150px] object-cover hover:bg-gradient-to-t from-zinc-800 to-slate-50 hover:opacity-60  z-20 cursor-pointer mr-36"
-            />
-            <div className="flex flex-col h-20 w-full mr-96   ">
-              <span className="text-md font-bold flex-nowrap">
-                {user?.name}
-              </span>
-              <span className="text-slate-500 text-xs">@{user?.username}</span>
+          <div className="flex flex-row items-center gap-6 mt-4">
+            <div className="flex flex-row items-center gap-6">
+              <Link href={`/home/profile/${user.username}/followers/${user.id}`}>
+                <p className="text-mono text-xs text-neutral-400 hover:underline hover:underline-offset-2">
+                  <span className="text-sm text-neutral-200">
+                    {user.followers.length}
+                  </span>{" "}
+                  Followers
+                </p>
+              </Link>
+              <Link href={`/home/profile/${user.username}/following/${user.id}`}>
+                <p className="text-xs text-mono text-neutral-400 hover:underline hover:underline-offset-2">
+                  <span className="text-sm text-neutral-200">
+                    {user.followings.length}
+                  </span>{" "}
+                  Following
+                </p>
+              </Link>
             </div>
-          </div>
-          <div className="w-full h-[15%] bg-neutral-900/80 rounded-md mb-20 p-2">
-            <h4 className="text-md text-slate-400">Bio</h4>
-
-            <p className="text-lg text-slate-400">{user?.bio}</p>
-          </div>
-          <div className="flex gap-x-1">
-            <Link href={`/home/profile/${params.profileId}/followers`}>
-              <span className="text-xs text-slate-300 hover:underline">
-                {user?.followers.length} Followers
-              </span>
-            </Link>
-            <Link href={`/home/profile/${params.profileId}/following`}>
-            <span className="text-xs text-slate-300 hover:underline">
-              {user?.followings.length} Following
-            </span>
-            </Link>
-          </div>
-          <div>
-            <Tabs defaultValue="Posts" className="w-full">
-              <TabsList className="w-full">
-                <TabsTrigger value="Posts" className="w-[25%]">
-                  Posts
-                </TabsTrigger>
-                <TabsTrigger value="Replies" className="w-[25%]">
-                  Replies
-                </TabsTrigger>
-                <TabsTrigger value="Media" className="w-[25%]">
-                  Media
-                </TabsTrigger>
-                <TabsTrigger value="Likes" className="w-[25%]">
-                  Likes
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent
-                value="Posts"
-                className="w-full overflow-scroll space-y-2"
-              >
-                <TabPost userId={params.profileId} />
-              </TabsContent>
-              <TabsContent
-                value="Replies"
-                className="w-full overflow-scroll space-y-2 gap-y-2"
-              >
-                <TabComments userId={params.profileId} />
-              </TabsContent>
-              <TabsContent
-                value="Media"
-                className="w-full overflow-scroll space-y-2 gap-y-2"
-              >
-                <TabMedia userId={params.profileId} />
-              </TabsContent>
-              <TabsContent
-                value="Likes"
-                className="w-full overflow-scroll space-y-2 gap-y-2"
-              >
-                <TabLikes userId={params.profileId} />
-              </TabsContent>
-            </Tabs>
           </div>
         </div>
       </div>
+
+      <Tabs defaultValue="Posts" className="w-full ">
+        <TabsList className="w-full bg-black drop-shadow-md ">
+          <TabsTrigger
+            value="Posts"
+            className="w-[25%]  active:border-neutral-900 active:border-2 border-none active:bg-neutral-900"
+          >
+            Posts
+          </TabsTrigger>
+          <TabsTrigger
+            value="Replies"
+            className="w-[25%] active:border-neutral-900 active:border-2 border-none"
+          >
+            Replies
+          </TabsTrigger>
+          <TabsTrigger
+            value="Media"
+            className="w-[25%] active:border-neutral-900 active:border-2 border-none"
+          >
+            Media
+          </TabsTrigger>
+          <TabsTrigger
+            value="Likes"
+            className="w-[25%] active:border-neutral-900 active:border-2 border-none"
+          >
+            Likes
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="Posts" className="w-full overflow-scroll space-y-2">
+          <TabPost2 userId={user.id} />
+        </TabsContent>
+        <TabsContent
+          value="Replies"
+          className="w-full overflow-scroll space-y-2 gap-y-2"
+        >
+          <TabComments2 userId={user.id} />
+        </TabsContent>
+        <TabsContent
+          value="Media"
+          className="w-full overflow-scroll space-y-2 gap-y-2"
+        >
+          <TabMedia2 userId={user.id} />
+        </TabsContent>
+        <TabsContent
+          value="Likes"
+          className="w-full overflow-scroll space-y-2 gap-y-2"
+        >
+          <TabLikes2 userId={user.id} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

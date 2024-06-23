@@ -53,7 +53,7 @@ export function EditForm() {
       header: user.header || "",
       name:user.name || "",
       username:user?.username || "",
-      avatar:user.image || "",
+      avatar:"",
       bio:user?.bio || "",
     },
     resolver: zodResolver(formSchema),
@@ -89,7 +89,12 @@ export function EditForm() {
               <FormItem>
                 <FormLabel>Header</FormLabel>
                 <FormControl>
-                  <ImageUpload value={field.value} onChange={field.onChange} isImageUploading={isImageUploading} setIsImageUploading={setIsImageUploading} />
+                  <ImageUpload
+                    value={field.value}
+                    onChange={field.onChange}
+                    isImageUploading={isImageUploading}
+                    setIsImageUploading={setIsImageUploading}
+                  />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -103,7 +108,19 @@ export function EditForm() {
               <FormItem>
                 <FormLabel>Avatar</FormLabel>
                 <FormControl>
-                  <ImageUpload value={field.value} onChange={field.onChange} />
+                  <div>
+                    <ImageUpload
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                    {field.value && (
+                      <img
+                        src={field.value}
+                        alt="avatar"
+                        className="w-[100px] h-[100px] rounded-full"
+                      />
+                    )}
+                  </div>
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -172,7 +189,7 @@ export function EditForm() {
             <Button
               type="submit"
               className="bg-red-400 hover:bg-red-500"
-              disabled={ isLoading}
+              disabled={isLoading}
             >
               Cancel
             </Button>

@@ -10,7 +10,8 @@ export async function PATCH(request: NextRequest,response:NextResponse) {
     const {data} = await request.json()
     console.log(data)
     const { name, username, header, avatar, bio } = data
-    console.log(user)
+    console.log(avatar)
+
     const me = await prisma.user.update({
         where: {
             id: user.id,

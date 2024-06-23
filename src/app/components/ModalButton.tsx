@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useCurrentUser, useUserModal } from "@/hooks/use-modal-store";
 import * as Dialog from '@radix-ui/react-dialog';
-import { Edit } from "lucide-react";
+import { Edit, EditIcon } from "lucide-react";
 import { EditForm } from "./EditForm";
 import { User } from "@prisma/client";
 import { set } from "date-fns";
@@ -17,7 +17,10 @@ export default function ModalButton({user}:ModalButtonProps) {
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger className="cursor-pointer z-20">
         <div className="flex items-center justify-end w-full cursor-pointer">
-          <Button className="w-28 h-8 rounded-md cursor-pointer" onClick={() => setUser(user)}>Edit Profile</Button>
+          <Button className="w-28 flex  h-8 rounded-full hover:bg-white/50 cursor-pointer" onClick={() => setUser(user)}>
+          
+          Edit Profile
+          </Button>
         </div>
       </Dialog.Trigger>
       <Dialog.Portal>

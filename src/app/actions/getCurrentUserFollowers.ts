@@ -42,6 +42,7 @@ export const getCurrentUserFollowing = async () => {
       followings: true
     }
   })
+  
   const followings = profile?.followings
   
   const followingUser = await prisma.user.findMany({
@@ -64,6 +65,7 @@ export const getOthertUserFollowing = async (profileId:string) => {
       followings: true
     }
   })
+  console.log(profile?.followers.length)
   const followings = profile?.followings
   
   const followingUser = await prisma.user.findMany({
@@ -73,20 +75,29 @@ export const getOthertUserFollowing = async (profileId:string) => {
       } 
     },
   })
+    console.log(profile?.followers.length);
+    
  
   return followingUser
 }
-export const getOthertUserFollowers = async (profileId:string) => { 
+export const getOthertUserFollowers = async (followerId:string) => { 
     const profile = await prisma.user.findUnique({
     where: {
-      id: profileId,
+      id: followerId,
     },
     include:{
       followers: true,
       followings: true
     }
   })
+  console.log(profile)
+  if(!profile?.followers){
+    return null;
+  }
+  console.log(profile?.followers.length)
+
   const followers = profile?.followers
+
   
   const followerUser = await prisma.user.findMany({
     where: {
@@ -95,6 +106,7 @@ export const getOthertUserFollowers = async (profileId:string) => {
       }
     },
   })    
+ 
  
   return followerUser    
 }

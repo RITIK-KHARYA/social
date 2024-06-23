@@ -22,7 +22,7 @@ export const createLike = async (postId:string, userId:string | undefined, autho
     data: {
       userid: user.id,
       toUserId: authorId,
-      content: "someone liked your post",
+      content: " liked your post",
     },
   });
   revalidatePath("/home");

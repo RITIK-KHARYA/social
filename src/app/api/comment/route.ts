@@ -23,7 +23,7 @@ export async function POST(request: NextRequest,response: NextResponse) {
        data: {
          userid: user.id,
          toUserId: authorId,
-         content: "someone commented on your post",
+         content: " commented on your post",
        },
      });
     return NextResponse.json({ status: 200, message: "Comment added successfully." })

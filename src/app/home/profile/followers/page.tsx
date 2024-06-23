@@ -3,44 +3,41 @@ import FollowButton from "@/app/components/FollowButton";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default async function Followers() {
   const user = await getCurrentUserFollowers();
   return (
-    <div className="bg-[#232323] h-screen w-full flex flex-col px-2 mt-2 rounded-md overflow-scroll">
+    <div className="bg-[#121212] h-screen w-[50%] flex flex-col mt-2 rounded-md overflow-scroll">
       {user?.length == 0 && (
-        <div className="flex justify-center h-screen py-4">
-          <h2 className="text-2xl"> You don't follow anyone </h2>
+        <div className="flex justify-center  h-screen ">
+          <h2 className="text-2xl font-mono"> You don't follow anyone</h2>
         </div>
       )}
-      <div className="py-2 flex flex-col gap-y-2">
+      <div className="py-2">
         {user?.map((follower) => (
-          <div key={follower.id} className="flex gap-y-2 py-2">
-            <div className="bg-neutral-900/90 w-full items-center h-24 rounded-md p-2 flex gap-y-2 py-2 ">
-              <div className="h-fit w-[50px]">
-                <Image
+          <Card className="flex items-center bg-neutral-900/60 border-2 border-neutral-900 rounded-md w-[64%] ml-2 h-20 box-shadow-md hover:bg-neutral-900/30 ">
+            <CardHeader className="flex flex-row justify-between w-full">
+              <div className="flex justify-center  ">
+                <img
                   src={follower?.image || "/images/images.png"}
                   alt="user"
                   width={50}
                   height={50}
-                  className="rounded-full w-[50px] h-[50px] object-cover hover:bg-gradient-to-t from-zinc-800 to-slate-50 hover:opacity-60  z-20 cursor-pointer mr-36"
+                  className="rounded-full w-[50px] h-[50px] object-cover hover:bg-gradient-to-t from-zinc-800 to-slate-50 hover:opacity-60  z-20 cursor-pointer "
                 />
+                <div className="flex flex-col ml-1">
+                  <p className="text-slate-150  text-sm">{follower?.name}</p>
+                  <p className="text-neutral-500 text-[10px] text-mono ">
+                    {"@" + follower?.username}
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col items-start justify-center w-full">
-                <span className="text-md font-bold flex-nowrap">
-                  {follower?.name}
-                </span>
-                <Link href={`/home/profile/${follower?.id}`}>
-                  <span className="text-slate-500 text-xs hover:underline">
-                    @{follower?.username}
-                  </span>
-                </Link>
-              </div>
-              <Link href={`/home/profile/${follower?.id}`}>
-                <Button className="w-28 h-8 ">View Profile</Button>
-              </Link>
-            </div>
-          </div>
+              <button className="bg-white hover:bg-white/50 h-fit w-fit px-4 py-1 place-content-end ml-8 text-neutral-900 rounded-full">
+                View
+              </button>
+            </CardHeader>
+          </Card>
         ))}
       </div>
     </div>

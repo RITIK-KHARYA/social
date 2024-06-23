@@ -1,23 +1,24 @@
-import { getCurrentUserFollowers, getCurrentUserFollowing } from "@/app/actions/getCurrentUserFollowers";
+import { getCurrentUserFollowers, getOthertUserFollowers } from "@/app/actions/getCurrentUserFollowers";
 import FollowButton from "@/app/components/FollowButton";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { profile } from "console";
 
-export default async function Following() {
-  const user = await getCurrentUserFollowing();
-  
+export default async function Followers({params}: {params: {followerId:string,profileId: string}}) {
+
+  const user = await getOthertUserFollowers(params.followerId);
   return (
-    <div className="bg-[#121212] h-screen w-full flex flex-col mt-2 rounded-md overflow-scroll">
+    <div className="bg-[#121212] h-screen w-[50%] flex flex-col mt-2 rounded-md overflow-scroll">
       {user?.length == 0 && (
-        <div className="flex justify-center h-screen py-4">
-          <h2 className="text-2xl"> You don't have any following </h2>
+        <div className="flex justify-center  h-screen ">
+          <h2 className="text-2xl font-mono"> You don't follow anyone</h2>
         </div>
       )}
-      <div className="py-2">
+      <div className=" flex flex-col py-2 gap-y-1">
         {user?.map((follower) => (
-          <Card className="flex items-center bg-neutral-900/60 border-2 border-neutral-900 rounded-md w-[64%] ml-2 h-20 box-shadow-md hover:bg-neutral-900/30 ">
+          <Card className="flex items-center bg-neutral-900/60 border-2 border-neutral-900 rounded-md w-full ml-2 h-20 box-shadow-md hover:bg-neutral-900/30 " key={follower.id}>
             <CardHeader className="flex flex-row justify-between w-full">
               <div className="flex justify-center  ">
                 <img
@@ -38,7 +39,6 @@ export default async function Following() {
                 View
               </button>
             </CardHeader>
-          
           </Card>
         ))}
       </div>

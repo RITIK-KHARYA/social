@@ -10,7 +10,11 @@ export const getNotifications = async () => {
         orderBy: {
             createdAt: "desc",
         },
+        include:{
+        user:true
+        }
     });
+    console.log(notifications)
     return notifications;
 }
  

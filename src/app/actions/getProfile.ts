@@ -19,7 +19,7 @@ export const getProfile = async () => {
     if(profile) {
         return profile
     }
-       const newProfile = await prisma.user.create({
+    const newProfile = await prisma.user.create({
         data: {
             id: user.id,
             name: `${user.firstName} ${user.lastName}`,
