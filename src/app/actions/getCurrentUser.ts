@@ -1,4 +1,4 @@
-"use server"
+
 import prisma from "@/db/db.config"
 import { currentUser } from "@clerk/nextjs/server"
 import { unstable_noStore } from "next/cache";

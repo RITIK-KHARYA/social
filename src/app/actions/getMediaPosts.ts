@@ -1,4 +1,3 @@
-"use server";
 import prisma from "@/db/db.config"
 import { currentUser } from "@clerk/nextjs/server"
 import { revalidatePath, unstable_noStore } from "next/cache"
@@ -23,7 +22,7 @@ export const getMediaPosts = async () => {
             bookmarks: true,
         },
     })
-    revalidatePath("/home/profile")
+
     return posts
 }
 

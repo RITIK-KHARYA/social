@@ -4,12 +4,7 @@ import { headers } from "next/headers";
 
 export const getPosts = async () => {
    unstable_noStore();
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/post`, {
-  //   cache: "no-cache",
-  //   headers: headers(),
-  // })
-  // const post = await res.json()
-  // revalidatePath("/home")
+
   const post = await prisma.post.findMany({
     orderBy: {
       createdAt: "desc",
@@ -37,6 +32,5 @@ export const getOtherUserPost = async (userId: string) => {
       likes: true,
     },
   });
-  revalidatePath("/home/profile/" + userId)
   return otherUser
 };

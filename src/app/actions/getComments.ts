@@ -18,7 +18,7 @@ export const getComments = async () => {
         }
         
     })
-    revalidatePath("/home/profile")
+
     return comments
 
 }
@@ -34,7 +34,7 @@ export const getOtherUserComments = async (userId: string) => {
       user: true,
     },
   });
-  revalidatePath("/home/profile/" + userId);
+
   return comments;
 };
 
@@ -49,6 +49,6 @@ export const getPostComments = async (postId: string) => {
       user: true,
     },
   });
-  revalidatePath("/home/post/" + postId);
+
   return comments;
 };

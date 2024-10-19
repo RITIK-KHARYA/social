@@ -14,7 +14,7 @@ export const getNotifications = async () => {
         user:true
         }
     });
-    console.log(notifications)
+
     return notifications;
 }
  

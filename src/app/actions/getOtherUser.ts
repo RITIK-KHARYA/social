@@ -1,4 +1,3 @@
-"use server";
 import prisma from "@/db/db.config";
 import { unstable_noStore } from "next/cache";
 
